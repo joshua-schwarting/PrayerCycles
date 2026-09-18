@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { ArrowLeft, Trash2, GripVertical, Timer } from 'lucide-react'
-import type { PrayerList, Prayer, PersistenceUnit } from '../db/types'
+import type { PrayerList, Prayer } from '../db/types'
 import { getList, deleteList, archiveList, reactivateList } from '../features/cycles/list-operations'
 import { getPrayersByList, reorderPrayers } from '../features/prayers/prayer-operations'
 import { PrayerDetailModal } from '../components/PrayerDetailModal'
@@ -96,11 +96,7 @@ export function ListDetailPage() {
     return <div className="flex h-40 items-center justify-center text-text-muted">{t.loading}</div>
   }
 
-  const persistenceLabels: Record<PersistenceUnit, string> = { wake: t.day, passage: t.week, season: t.month, orbit: t.year }
-  const persistenceLabelPlural: Record<PersistenceUnit, string> = { wake: t.days, passage: t.weeks, season: t.months, orbit: t.years }
-  const pUnit = list.cycle.persistence.unit
-  const pEvery = list.cycle.persistence.every
-  const freqLabel = pEvery === 1 ? `${t.every} ${persistenceLabels[pUnit]}` : `${t.every} ${pEvery} ${persistenceLabelPlural[pUnit]}`
+
 
 
 
@@ -204,7 +200,6 @@ export function ListDetailPage() {
               {/* Active/Deactivated toggle — top right */}
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-xs text-text-tertiary leading-tight"><span className="capitalize">{list.cycle.cadence}</span> | {freqLabel} | {t.prayerCount(prayers.length)}</p>
                   <h2 className="text-xl font-semibold text-text -mt-0.5">{list.name}</h2>
                 </div>
                 <button
@@ -323,6 +318,7 @@ export function ListDetailPage() {
                     <GripVertical size={16} className="text-text-tertiary" />
                   </span>
                   <span className="truncate">{prayer.title}</span>
+                  <span className="ml-auto shrink-0 pl-2 text-xs text-accent-text">{prayer.prayerTally}</span>
                 </div>
               </div>
             ))}

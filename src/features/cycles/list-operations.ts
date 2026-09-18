@@ -1,7 +1,7 @@
 import { db } from '../../db/db'
 import { generateId } from '../../lib/id'
 import { snapshotToLocalStorage } from '../backup/local-backup'
-import type { Cycle, ListStatus, PrayerList } from '../../db/types'
+import type { ListStatus, PrayerList } from '../../db/types'
 
 export const UNSCHEDULED_ID = '__unscheduled__'
 
@@ -12,7 +12,6 @@ export async function ensureUnscheduledList(): Promise<void> {
     id: UNSCHEDULED_ID,
     name: 'Unscheduled',
     description: '',
-    cycle: { cadence: 'daily', persistence: { unit: 'wake', every: 1 } },
     status: 'active',
     rotationState: { queue: [], pointer: 0, lastCadenceBoundary: Date.now(), tallyOffsets: {} },
     completionTally: 0,
@@ -29,7 +28,6 @@ export async function ensureUnscheduledList(): Promise<void> {
 
 export async function createList(
   name: string,
-  cycle: Cycle,
   description = '',
   initialPrayerTitles: string[] = [],
   tags: string[] = [],
@@ -61,7 +59,6 @@ export async function createList(
     id,
     name,
     description,
-    cycle,
     status: 'active',
     rotationState: { queue, pointer: 0, lastCadenceBoundary: Date.now(), tallyOffsets: {} },
     completionTally: 0,

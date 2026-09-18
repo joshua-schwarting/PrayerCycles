@@ -1,10 +1,5 @@
 import { z } from 'zod/v4'
 
-const cycleSchema = z.object({
-  cadence: z.enum(['daily', 'weekly', 'monthly', 'custom']),
-  persistence: z.enum(['one-session', 'sustained']),
-})
-
 const rotationStateSchema = z.object({
   queue: z.array(z.string()),
   pointer: z.number().int().min(0),
@@ -15,7 +10,6 @@ export const prayerListSchema = z.object({
   id: z.string(),
   name: z.string().min(1),
   description: z.string(),
-  cycle: cycleSchema,
   status: z.enum(['active', 'archived']),
   rotationState: rotationStateSchema,
   createdAt: z.number(),

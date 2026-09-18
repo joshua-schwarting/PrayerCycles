@@ -4,7 +4,7 @@ import confetti from 'canvas-confetti'
 import { useT } from '../i18n'
 import { useTimer } from '../context/TimerContext'
 import { TagInput } from './TagInput'
-import type { PrayerList, Cadence, PersistenceUnit } from '../db/types'
+import type { PrayerList } from '../db/types'
 import { createList, updateList, getList, getAllLists, UNSCHEDULED_ID } from '../features/cycles/list-operations'
 import { createPrayer, bulkCreatePrayers } from '../features/prayers/prayer-operations'
 import { getAllTags } from '../features/tags/tag-operations'
@@ -22,7 +22,7 @@ type AddModalProps = {
 
 type Mode = 'create-list' | 'add-single' | 'edit-list'
 
-const LIST_STEPS = ['name', 'people', 'cycle'] as const
+const LIST_STEPS = ['name', 'people'] as const
 const PRAYER_STEPS = ['who', 'list', 'details'] as const
 type StepKey = (typeof LIST_STEPS)[number] | (typeof PRAYER_STEPS)[number]
 
@@ -45,9 +45,6 @@ export function AddModal({ open, onClose, onAdded, initialListId, editListId }: 
   // Create list fields
   const [listName, setListName] = useState('')
   const [listDescription, setListDescription] = useState('')
-  const [cadence, setCadence] = useState<Cadence>('daily')
-  const [persistenceUnit, setPersistenceUnit] = useState<PersistenceUnit>('wake')
-  const [persistenceEvery, setPersistenceEvery] = useState(1)
   const [initialPrayers, setInitialPrayers] = useState('')
   const [listTags, setListTags] = useState<string[]>([])
 
@@ -89,9 +86,6 @@ export function AddModal({ open, onClose, onAdded, initialListId, editListId }: 
           if (!l) return
           setListName(l.name)
           setListDescription(l.description)
-          setCadence(l.cycle.cadence)
-          setPersistenceUnit(l.cycle.persistence.unit)
-          setPersistenceEvery(l.cycle.persistence.every)
           setListTags(l.tags ?? [])
           setInitialPrayers('')
         })
@@ -121,9 +115,6 @@ export function AddModal({ open, onClose, onAdded, initialListId, editListId }: 
   function reset() {
     setListName('')
     setListDescription('')
-    setCadence('daily')
-    setPersistenceUnit('wake')
-    setPersistenceEvery(1)
     setInitialPrayers('')
     setListTags([])
     setTitle('')
@@ -249,7 +240,6 @@ export function AddModal({ open, onClose, onAdded, initialListId, editListId }: 
         await updateList(editListId, {
           name: listName.trim(),
           description: listDescription.trim(),
-          cycle: { cadence, persistence: { unit: persistenceUnit, every: persistenceEvery } },
           tags: listTags,
         })
         // The people step adds to the list here rather than defining it, so an
@@ -262,10 +252,6 @@ export function AddModal({ open, onClose, onAdded, initialListId, editListId }: 
         const titles = initialPrayers.split('\n').filter((x) => x.trim())
         focusListId = await createList(
           listName.trim(),
-          {
-            cadence,
-            persistence: { unit: persistenceUnit, every: persistenceEvery },
-          },
           listDescription.trim(),
           titles,
           listTags,
@@ -284,34 +270,6 @@ export function AddModal({ open, onClose, onAdded, initialListId, editListId }: 
     }
   }
 
-  const allUnits: [PersistenceUnit, string][] = [
-    ['wake', t.wake],
-    ['passage', t.passage],
-    ['season', t.season],
-    ['orbit', t.orbit],
-  ]
-
-  function allowedUnits(c: Cadence): PersistenceUnit[] {
-    if (c === 'daily') return ['wake']
-    if (c === 'weekly') return ['wake', 'passage']
-    if (c === 'monthly') return ['wake', 'passage', 'season']
-    return ['wake', 'passage', 'season', 'orbit']
-  }
-
-  const cadenceLabels: Record<Cadence, string> = {
-    daily: t.daily,
-    weekly: t.weekly,
-    monthly: t.monthly,
-    annually: t.annually,
-  }
-
-  /** Nudge the interval, clamped, so it can never be blank or out of range. */
-  function stepEvery(delta: number) {
-    if (cadence === 'daily') return
-    setPersistenceEvery((n) => Math.max(1, Math.min(99, n + delta)))
-  }
-
-  const visibleUnits = allUnits.filter(([unit]) => allowedUnits(cadence).includes(unit))
   const selectableLists = lists.filter((l) => l.status !== 'deleted' && l.id !== UNSCHEDULED_ID)
 
   if (!open) return null
@@ -371,78 +329,6 @@ export function AddModal({ open, onClose, onAdded, initialListId, editListId }: 
             <div>
               <div className="mb-2 text-center text-sm text-text-tertiary">{t.tags}</div>
               <TagInput tags={listTags} onChange={setListTags} placeholder={t.tagsPlaceholder} allTags={existingTags} />
-            </div>
-          </>
-        )
-
-      case 'cycle':
-        return (
-          <>
-            <p className={titleClass}>{t.cycleFrequency}</p>
-            <p className={subtitle}>{t.qHowOften}</p>
-            {/* Tight padding keeps all four on one row on a phone */}
-            <div className="flex justify-center gap-1">
-              {(['daily', 'weekly', 'monthly', 'annually'] as Cadence[]).map((c) => (
-                <button
-                  key={c}
-                  type="button"
-                  onClick={() => {
-                    setCadence(c)
-                    if (c === 'daily') {
-                      setPersistenceUnit('wake')
-                      setPersistenceEvery(1)
-                    } else {
-                      const allowed = allowedUnits(c)
-                      if (!allowed.includes(persistenceUnit)) setPersistenceUnit(allowed[0])
-                    }
-                  }}
-                  className={`flex-1 whitespace-nowrap rounded-lg px-1 py-2 text-xs transition-colors ${cadence === c ? 'bg-input-hover text-text' : 'bg-input text-text-tertiary'}`}
-                >
-                  {cadenceLabels[c]}
-                </button>
-              ))}
-            </div>
-            <div className="rounded-lg border border-border p-3">
-              {/* Stepper rather than a keyboard: one-handed, and it can't end up empty. */}
-              <div className="flex items-center justify-center gap-3">
-                <span className="text-sm text-text-tertiary">{t.every}</span>
-                <div className="flex items-center gap-1">
-                  <button
-                    type="button"
-                    aria-label={t.stepDown}
-                    disabled={cadence === 'daily' || persistenceEvery <= 1}
-                    onClick={() => stepEvery(-1)}
-                    className="flex h-9 w-9 items-center justify-center rounded-lg bg-input text-text-secondary transition-colors hover:bg-input-hover disabled:opacity-30"
-                  >
-                    <ChevronLeft size={18} />
-                  </button>
-                  <span className="w-10 text-center text-lg font-semibold tabular-nums text-text">
-                    {cadence === 'daily' ? 1 : persistenceEvery}
-                  </span>
-                  <button
-                    type="button"
-                    aria-label={t.stepUp}
-                    disabled={cadence === 'daily' || persistenceEvery >= 99}
-                    onClick={() => stepEvery(1)}
-                    className="flex h-9 w-9 items-center justify-center rounded-lg bg-input text-text-secondary transition-colors hover:bg-input-hover disabled:opacity-30"
-                  >
-                    <ChevronRight size={18} />
-                  </button>
-                </div>
-              </div>
-              {/* Units on their own row, sized to match the cadence buttons above. */}
-              <div className="mt-3 flex justify-center gap-1">
-                {visibleUnits.map(([unit, label]) => (
-                  <button
-                    key={unit}
-                    type="button"
-                    onClick={() => { if (cadence !== 'daily') setPersistenceUnit(unit) }}
-                    className={`flex-1 whitespace-nowrap rounded-lg px-1 py-2 text-xs transition-colors ${persistenceUnit === unit ? 'bg-input-hover text-text' : 'bg-input text-text-tertiary'}`}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
             </div>
           </>
         )

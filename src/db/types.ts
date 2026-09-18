@@ -1,16 +1,4 @@
-export type Cadence = 'daily' | 'weekly' | 'monthly' | 'annually'
-export type PersistenceUnit = 'wake' | 'passage' | 'season' | 'orbit'
 export type ListStatus = 'active' | 'archived' | 'deleted'
-
-export type Persistence = {
-  unit: PersistenceUnit
-  every: number
-}
-
-export type Cycle = {
-  cadence: Cadence
-  persistence: Persistence
-}
 
 export type RotationState = {
   queue: string[]
@@ -23,7 +11,6 @@ export type PrayerList = {
   id: string
   name: string
   description: string
-  cycle: Cycle
   status: ListStatus
   rotationState: RotationState
   completionTally: number

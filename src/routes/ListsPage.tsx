@@ -230,11 +230,6 @@ function ListCard({ list, prayers, query, focused }: { list: PrayerList; prayers
     const el = descRef.current
     if (el) setIsClamped(el.scrollHeight > el.clientHeight)
   }, [list.description])
-  const pUnit = list.cycle.persistence.unit
-  const pEvery = list.cycle.persistence.every
-  const unitLabels: Record<string, [string, string]> = { wake: [t.day, t.days], passage: [t.week, t.weeks], season: [t.month, t.months], orbit: [t.year, t.years] }
-  const [singular, plural] = unitLabels[pUnit] || [t.day, t.days]
-  const freqLabel = t.everyUnit(pEvery, singular, plural)
   const visible = prayers.slice(0, MAX_VISIBLE)
   const overflow = prayers.length - MAX_VISIBLE
 
@@ -246,16 +241,13 @@ function ListCard({ list, prayers, query, focused }: { list: PrayerList; prayers
   return (
     <div
       ref={cardRef}
-      className={`rounded-lg pt-2 px-4 pb-4 shadow-md break-inside-avoid cursor-pointer bg-card hover:bg-input transition ${borderClass} ${isArchived ? 'opacity-50' : ''} ${focused ? 'ring-4 ring-accent-text ring-offset-2 ring-offset-base' : ''}`}
+      className={`rounded-lg p-4 shadow-md break-inside-avoid cursor-pointer bg-card hover:bg-input transition ${borderClass} ${isArchived ? 'opacity-50' : ''} ${focused ? 'ring-4 ring-accent-text ring-offset-2 ring-offset-base' : ''}`}
       onClick={() => navigate(`/lists/${list.id}`)}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => { if (e.key === 'Enter') navigate(`/lists/${list.id}`) }}
     >
-      {!isUnscheduled && (
-        <p className="text-xs text-text-tertiary leading-tight"><span className="capitalize">{list.cycle.cadence}</span> | {freqLabel} | {t.prayerCount(prayers.length)}</p>
-      )}
-      <h3 className="text-lg font-semibold text-text -mt-0.5"><Highlight text={displayName} query={query} /></h3>
+      <h3 className="text-lg font-semibold text-text"><Highlight text={displayName} query={query} /></h3>
       {list.description && (
         <div className="relative mt-1">
           <p ref={descRef} className="text-sm text-text-secondary line-clamp-5"><Highlight text={list.description} query={query} /></p>
@@ -290,6 +282,8 @@ function ListCard({ list, prayers, query, focused }: { list: PrayerList; prayers
         </div>
       )}
 
+      {/* Times the whole list has been prayed through, as it used to sit */}
+      <div className="mt-3 text-right text-xs text-accent-text">{list.completionTally ?? 0}</div>
     </div>
   )
 }

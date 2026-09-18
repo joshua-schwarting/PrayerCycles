@@ -15,8 +15,6 @@ export type Translations = {
   loading: string
 
   // Bottom nav
-  stepDown: string
-  stepUp: string
   navPrayerLists: string
   navTimebox: string
 
@@ -52,29 +50,6 @@ export type Translations = {
   // List detail page
   backToPrayerLists: string
   descriptionOptional: string
-  cycle: string
-  daily: string
-  weekly: string
-  monthly: string
-  annually: string
-  frequency: string
-  wake: string
-  passage: string
-  season: string
-  orbit: string
-  wakeTooltip: string
-  passageTooltip: string
-  seasonTooltip: string
-  orbitTooltip: string
-  every: string
-  day: string
-  days: string
-  week: string
-  weeks: string
-  month: string
-  months: string
-  year: string
-  years: string
   active: string
   inactive: string
   activeTapToDeactivate: string
@@ -109,15 +84,12 @@ export type Translations = {
   next: string
   stepOf: (current: number, total: number) => string
   qListName: string
-  qHowOften: string
   qWhoInList: string
   qAnythingElse: string
   qWhichList: string
-  cycleHelp: string
   peopleHelp: string
   optionalStep: string
   prayersAndTags: string
-  cycleFrequency: string
   detailsTitle: string
   listDescriptionOptional: string
 
@@ -160,7 +132,6 @@ export type Translations = {
   // History page
 
   // Total time prayed
-  everyUnit: (every: number, singular: string, plural: string) => string
 
   // Tags
   navPrayerTags: string
