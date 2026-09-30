@@ -60,14 +60,14 @@ export function PrayerDetailModal({ prayer, onClose, onUpdated }: PrayerDetailMo
 
           <div>
             <div className="flex items-center justify-between mb-1">
-              <span className="text-xs text-text-muted">{description.length}/2000</span>
+              <span className="text-xs text-text-muted">{description.length}/5000</span>
             </div>
             <textarea
               ref={descRef}
               placeholder={t.addDescription}
               value={description}
-              onChange={(e) => setDescription(e.target.value.slice(0, 2000))}
-              maxLength={2000}
+              onChange={(e) => setDescription(e.target.value.slice(0, 5000))}
+              maxLength={5000}
               rows={4}
               className="w-full rounded-lg bg-input px-3 py-2 text-text placeholder-text-tertiary outline-none focus:ring-2 focus:ring-text-muted resize-none"
             />

@@ -301,12 +301,12 @@ export function AddModal({ open, onClose, onAdded, initialListId, editListId }: 
               <textarea
                 placeholder={t.listDescriptionOptional}
                 value={listDescription}
-                onChange={(e) => setListDescription(e.target.value.slice(0, 500))}
+                onChange={(e) => setListDescription(e.target.value.slice(0, 120))}
                 rows={3}
-                maxLength={500}
+                maxLength={120}
                 className={`${inputClass} resize-none text-center`}
               />
-              <div className="mt-1 text-right text-xs text-text-muted">{listDescription.length}/500</div>
+              <div className="mt-1 text-right text-xs text-text-muted">{listDescription.length}/120</div>
             </div>
           </>
         )
@@ -374,14 +374,14 @@ export function AddModal({ open, onClose, onAdded, initialListId, editListId }: 
             <p className={titleClass}>{t.detailsTitle}</p>
             <div>
               <div className="mb-1 flex items-center justify-between">
-                <span className="text-xs text-text-muted">{description.length}/2000</span>
+                <span className="text-xs text-text-muted">{description.length}/5000</span>
               </div>
               <textarea
                 ref={addDescRef}
                 placeholder={t.descriptionOptional}
                 value={description}
-                onChange={(e) => setDescription(e.target.value.slice(0, 2000))}
-                maxLength={2000}
+                onChange={(e) => setDescription(e.target.value.slice(0, 5000))}
+                maxLength={5000}
                 rows={4}
                 className={`${inputClass} resize-none text-center`}
               />

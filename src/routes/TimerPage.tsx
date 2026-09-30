@@ -232,14 +232,14 @@ export function TimerPage() {
   const totalTimerValue = running ? Math.max(0, timeLeft - 1) : timeLeft
 
   return (
-    <div className="flex-1 overflow-y-auto px-4 pb-nav pt-4">
-      <div className="mx-auto max-w-2xl space-y-3">
+    <div className="flex flex-1 flex-col overflow-y-auto px-4 pb-nav pt-4">
+      <div className="mx-auto flex w-full min-h-0 flex-1 max-w-2xl flex-col space-y-3">
 
         {/* Timebox — timers on top, the prayer gets the whole width below so a
             long description isn't squeezed into a narrow column. */}
         <div
           ref={timeboxRef}
-          className="relative z-10 flex flex-col rounded-lg border-2 border-accent-text/80 bg-card shadow-[0_0_14px_var(--color-accent-glow)]"
+          className="relative z-10 flex min-h-[260px] flex-1 flex-col rounded-lg border-2 border-accent-text/80 bg-card shadow-[0_0_14px_var(--color-accent-glow)]"
         >
           {/* ---- Timer panel ---- */}
           <div className="shrink-0 space-y-3 border-b border-border p-4">
@@ -388,7 +388,7 @@ export function TimerPage() {
               the drag continuing into the page behind once it hits the end. */}
           <div
             data-no-page-swipe
-            className="flex max-h-[60vh] min-h-[220px] flex-col overflow-y-auto overscroll-contain break-words p-4"
+            className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain break-words p-4"
             style={{ touchAction: 'pan-y' }}
           >
             {currentPrayer ? (

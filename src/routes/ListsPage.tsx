@@ -250,7 +250,7 @@ function ListCard({ list, prayers, query, focused }: { list: PrayerList; prayers
       <h3 className="text-lg font-semibold text-text"><Highlight text={displayName} query={query} /></h3>
       {list.description && (
         <div className="relative mt-1">
-          <p ref={descRef} className="text-sm text-text-secondary line-clamp-5"><Highlight text={list.description} query={query} /></p>
+          <p ref={descRef} className="text-xs italic text-text-secondary line-clamp-5"><Highlight text={list.description} query={query} /></p>
           {isClamped && (
             <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-5 bg-gradient-to-t from-card to-transparent" />
           )}

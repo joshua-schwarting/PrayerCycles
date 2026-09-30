@@ -2,7 +2,7 @@ import { useState, useEffect, useLayoutEffect, useCallback, useRef } from 'react
 import { BrowserRouter, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom'
 import { Plus } from 'lucide-react'
 import { TimerBar } from './components/TimerBar'
-import { BottomNav } from './components/BottomNav'
+import { MainNav } from './components/MainNav'
 import { SideMenu } from './components/SideMenu'
 import { AddModal } from './components/AddModal'
 import { ExportImportModal } from './components/ExportImportModal'
@@ -207,6 +207,7 @@ function AppContent() {
       <TimerProvider>
       <div className="flex h-dvh flex-col overflow-hidden bg-base text-text">
         <TimerBar onMenuOpen={() => setMenuOpen(true)} />
+        {!modalOpen && <MainNav onNavigate={() => setMenuOpen(false)} />}
         <SideMenu
           open={menuOpen}
           onClose={() => setMenuOpen(false)}
@@ -254,7 +255,7 @@ function AppContent() {
           <button
             onClick={() => { setAddListId(undefined); setEditListId(undefined); setAddOpen(true) }}
             className="fixed right-4 z-40 flex h-16 w-16 items-center justify-center rounded-full bg-input-hover text-text shadow-lg transition-colors hover:bg-input"
-            style={{ bottom: 'calc(5.25rem + env(safe-area-inset-bottom))' }}
+            style={{ bottom: 'calc(1.25rem + env(safe-area-inset-bottom))' }}
             aria-label="Add"
           >
             <Plus size={30} />
@@ -271,7 +272,6 @@ function AppContent() {
         <LanguageModal open={langOpen} onClose={() => setLangOpen(false)} />
         <ThemeModal open={themeOpen} onClose={() => setThemeOpen(false)} />
         <ResetDataModal open={resetOpen} onClose={() => setResetOpen(false)} />
-        {!modalOpen && <BottomNav onNavigate={() => setMenuOpen(false)} />}
       </div>
       </TimerProvider>
   )
