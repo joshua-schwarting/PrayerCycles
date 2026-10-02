@@ -1,4 +1,4 @@
-import { X, Download, Trash2, Globe, Palette, ShieldCheck } from 'lucide-react'
+import { X, Download, Trash2, Globe, Palette, ShieldCheck, Hash } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useT } from '../i18n'
 
@@ -73,6 +73,14 @@ export function SideMenu({ open, onClose, onExportImport, onLanguages, onThemes,
           >
             <Palette size={18} />
             {t.themes}
+          </button>
+
+          <button
+            onClick={() => goTo('/tags')}
+            className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-sm text-text-secondary hover:bg-input transition-colors"
+          >
+            <Hash size={18} />
+            {t.prayerTags}
           </button>
 
           <button

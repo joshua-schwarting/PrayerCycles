@@ -24,7 +24,6 @@ export const gsw: Translations = {
   themes: 'Themes',
 
   praying: 'Am Bäte',
-  selectAList: 'Lischte uuswähle',
   noOtherLists: 'Kei anderi Lischte',
   openMenu: 'Menü ufmache',
   startTimer: 'Timer starte',
@@ -34,7 +33,7 @@ export const gsw: Translations = {
   autoToggleOffTooltip: 'D Gsamtzit isch manuell gsetzt. Aaschalte zum automatisch aapassse.',
 
 
-  searchPrayers: 'Gebät sueche...',
+  searchPrayers: 'Gebät, Lischte oder Tags sueche',
   noListsYet: 'No kei Lischte.',
   deactivated: 'Deaktiviert',
   expand: 'erweitere',
@@ -115,7 +114,6 @@ export const gsw: Translations = {
 
 
 
-  navPrayerTags: 'Gebäts\nTags',
   prayerTags: 'Gebets-Tags',
   prayerTagsDesc: 'Tags erstelle, bearbeite oder lösche zum Organisiere vo dine Gebät und Gebetslischte.',
   noTagsYet: 'No kei Tags. Füeg Tags bi zum Gebät oder Lischte erstelle dezue.',
@@ -126,8 +124,6 @@ export const gsw: Translations = {
   createTag: 'Tag erstelle',
   newTagPlaceholder: 'Neue Tag-Name...',
   filterByTags: 'Nach Tags filtere',
-  seeMore: 'meh aazeige',
-  seeLess: 'weniger aazeige',
 
   themeSlate: 'Default',
   themeNuudelchin: 'Nomadic',

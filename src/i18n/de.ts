@@ -24,7 +24,6 @@ export const de: Translations = {
   themes: 'Designs',
 
   praying: 'Im Gebet',
-  selectAList: 'Liste auswählen',
   noOtherLists: 'Keine weiteren Listen',
   openMenu: 'Menü öffnen',
   startTimer: 'Timer starten',
@@ -33,7 +32,7 @@ export const de: Translations = {
   autoToggleOnTooltip: 'Die Gesamtzeit passt sich automatisch an, damit jedes Gebet der Liste hineinpasst – auf Basis deiner Zeit pro Gebet.',
   autoToggleOffTooltip: 'Die Gesamtzeit ist manuell gesetzt. Einschalten, um sie automatisch an deine Gebetsliste anzupassen.',
 
-  searchPrayers: 'Gebete suchen ...',
+  searchPrayers: 'Gebete, Listen oder Tags suchen',
   noListsYet: 'Noch keine Listen.',
   deactivated: 'Deaktiviert',
   expand: 'mehr',
@@ -112,7 +111,6 @@ export const de: Translations = {
   deletedListsDesc: 'Gelöschte Listen werden nach 50 Tagen endgültig entfernt.',
 
 
-  navPrayerTags: 'Gebets\ntags',
   prayerTags: 'Gebetstags',
   prayerTagsDesc: 'Erstelle, bearbeite oder entferne Tags, um deine Gebete und Gebetslisten zu ordnen.',
   noTagsYet: 'Noch keine Tags. Füge Tags hinzu, wenn du Gebete oder Listen erstellst.',
@@ -123,8 +121,6 @@ export const de: Translations = {
   createTag: 'Tag erstellen',
   newTagPlaceholder: 'Name des neuen Tags ...',
   filterByTags: 'Nach Tags filtern',
-  seeMore: 'mehr anzeigen',
-  seeLess: 'weniger anzeigen',
 
   themeSlate: 'Standard',
   themeNuudelchin: 'Nomadic',

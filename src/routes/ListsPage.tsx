@@ -1,12 +1,11 @@
 import { useState, useEffect, useCallback, useRef, type ReactNode } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { Search, ChevronDown, ChevronUp } from 'lucide-react'
+import { Search } from 'lucide-react'
 import { useT } from '../i18n'
 import { MasonryColumns } from '../components/MasonryColumns'
 import type { PrayerList, Prayer } from '../db/types'
 import { getAllLists, UNSCHEDULED_ID } from '../features/cycles/list-operations'
 import { getPrayersByList } from '../features/prayers/prayer-operations'
-import { getAllTags } from '../features/tags/tag-operations'
 
 function Highlight({ text, query }: { text: string; query: string }): ReactNode {
   if (!query) return text
@@ -24,7 +23,7 @@ function Highlight({ text, query }: { text: string; query: string }): ReactNode 
  * unmounts the copy that slid in and mounts a fresh one, so without this the
  * page you just swiped to blanks to Loading... at the moment it arrives.
  */
-let lastLoad: { data: ListWithPrayers[]; allTags: string[] } | null = null
+let lastLoad: { data: ListWithPrayers[] } | null = null
 
 type ListWithPrayers = {
   list: PrayerList
@@ -45,26 +44,16 @@ export function ListsPage() {
   // Only the very first load of the session has nothing to show.
   const [loading, setLoading] = useState(lastLoad === null)
   const [searchQuery, setSearchQuery] = useState('')
-  const [allTags, setAllTags] = useState<string[]>(() => lastLoad?.allTags ?? [])
-  const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set())
-  const [tagsExpanded, setTagsExpanded] = useState(false)
-  const [tagsOverflow, setTagsOverflow] = useState(false)
-  const tagsRef = useRef<HTMLDivElement>(null)
-
   const load = useCallback(async () => {
-    const [lists, tags] = await Promise.all([
-      getAllLists(),
-      getAllTags(),
-    ])
+    const lists = await getAllLists()
     const withPrayers = await Promise.all(
       lists.map(async (list) => ({
         list,
         prayers: await getPrayersByList(list.id),
       })),
     )
-    lastLoad = { data: withPrayers, allTags: tags }
+    lastLoad = { data: withPrayers }
     setData(withPrayers)
-    setAllTags(tags)
     setLoading(false)
   }, [])
 
@@ -78,37 +67,26 @@ export function ListsPage() {
     return () => window.removeEventListener('prayercycles:refresh', handler)
   }, [load])
 
-  // Detect if tag bar overflows 3 lines
-  useEffect(() => {
-    const el = tagsRef.current
-    if (el) {
-      setTagsOverflow(el.scrollHeight > 84)
-    }
-  }, [allTags])
-
   if (loading) {
     return <div className="flex h-40 items-center justify-center text-text-muted">{t.loading}</div>
   }
 
   const lower = searchQuery.toLowerCase()
-  const hasTagFilter = selectedTags.size > 0
 
-  // Text search filter
-  const textFiltered = lower
+  // One search box for everything: names, descriptions and tags, on the list
+  // itself or on any prayer in it.
+  const filtered = lower
     ? data.filter((d) =>
         d.list.name.toLowerCase().includes(lower) ||
         d.list.description.toLowerCase().includes(lower) ||
         (d.list.tags ?? []).some((tag) => tag.toLowerCase().includes(lower)) ||
-        d.prayers.some((p) => p.title.toLowerCase().includes(lower) || p.description.toLowerCase().includes(lower))
+        d.prayers.some((p) =>
+          p.title.toLowerCase().includes(lower) ||
+          p.description.toLowerCase().includes(lower) ||
+          (p.tags ?? []).some((tag) => tag.toLowerCase().includes(lower)),
+        )
       )
     : data
-
-  // Tag filter (OR — show list if it has ANY of the selected tags)
-  const filtered = hasTagFilter
-    ? textFiltered.filter((d) =>
-        (d.list.tags ?? []).some((tag) => selectedTags.has(tag)),
-      )
-    : textFiltered
 
   // Hide Unscheduled list unless it has prayers or user is searching
   const visibleData = filtered.filter((d) =>
@@ -116,15 +94,6 @@ export function ListsPage() {
   )
   const active = visibleData.filter((d) => d.list.status === 'active')
   const archived = visibleData.filter((d) => d.list.status === 'archived')
-
-  function toggleTag(tag: string) {
-    setSelectedTags((prev) => {
-      const next = new Set(prev)
-      if (next.has(tag)) next.delete(tag)
-      else next.add(tag)
-      return next
-    })
-  }
 
   return (
     <div className="flex-1 overflow-y-auto px-4 pb-nav pt-4">
@@ -140,48 +109,6 @@ export function ListsPage() {
             className="flex-1 bg-transparent text-sm text-text placeholder-text-muted outline-none"
           />
         </div>
-
-        {/* Tag filter bar */}
-        {allTags.length > 0 && (
-          <div className="mb-4">
-            <div className="relative">
-              <div
-                ref={tagsRef}
-                className={`flex flex-wrap gap-1.5 overflow-hidden transition-all duration-200 ${
-                  tagsExpanded ? '' : 'max-h-[5.25rem]'
-                }`}
-              >
-                {allTags.map((tag) => (
-                  <button
-                    key={tag}
-                    onClick={() => toggleTag(tag)}
-                    className={`rounded-full px-2.5 py-1 text-xs transition-colors ${
-                      selectedTags.has(tag)
-                        ? 'bg-accent text-white'
-                        : 'bg-card text-text-tertiary hover:bg-input hover:text-text-secondary'
-                    }`}
-                  >
-                    #{tag}
-                  </button>
-                ))}
-              </div>
-              {!tagsExpanded && tagsOverflow && (
-                <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-7 bg-gradient-to-t from-base to-transparent" />
-              )}
-            </div>
-            {tagsOverflow && (
-              <div className="flex justify-center">
-                <button
-                  onClick={() => setTagsExpanded(!tagsExpanded)}
-                  aria-label={tagsExpanded ? t.seeLess : t.seeMore}
-                  className="p-1 text-text-muted transition-colors hover:text-text-secondary cursor-pointer"
-                >
-                  {tagsExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-                </button>
-              </div>
-            )}
-          </div>
-        )}
 
         {active.length === 0 && archived.length === 0 && (
           <p className="pt-20 text-center text-text-tertiary">{t.noListsYet}</p>

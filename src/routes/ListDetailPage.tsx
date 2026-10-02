@@ -32,7 +32,6 @@ export function ListDetailPage() {
   const [dragIdx, setDragIdx] = useState<number | null>(null)
   const [overIdx, setOverIdx] = useState<number | null>(null)
   const [dragArmed, setDragArmed] = useState(false)
-  const dragTouchY = useRef<number>(0)
   const listContainerRef = useRef<HTMLDivElement>(null)
 
   function handleSort(mode: SortMode) {
@@ -141,8 +140,7 @@ export function ListDetailPage() {
   }
 
   // Touch drag handlers
-  function handleTouchStart(idx: number, e: React.TouchEvent) {
-    dragTouchY.current = e.touches[0].clientY
+  function handleTouchStart(idx: number) {
     setDragIdx(idx)
   }
 
@@ -309,13 +307,16 @@ export function ListDetailPage() {
                 <div className="flex items-center gap-2 min-w-0">
                   {/* Dragging is armed by the handle only — otherwise scrolling a
                       long list drags people around by accident. */}
+                  {/* Negative margins keep the row looking the same while the
+                      grabbable area fills its height and clears 44px. */}
                   <span
-                    className="-m-1 shrink-0 cursor-grab p-1 touch-none"
+                    data-no-page-swipe
+                    className="-my-2 -ml-3 flex shrink-0 cursor-grab touch-none items-center self-stretch py-3 pl-3 pr-3"
                     onPointerDown={() => setDragArmed(true)}
                     onPointerUp={() => setDragArmed(false)}
-                    onTouchStart={(e) => { setDragArmed(true); handleTouchStart(idx, e) }}
+                    onTouchStart={() => { setDragArmed(true); handleTouchStart(idx) }}
                   >
-                    <GripVertical size={16} className="text-text-tertiary" />
+                    <GripVertical size={20} className="text-text-tertiary" />
                   </span>
                   <span className="truncate">{prayer.title}</span>
                   <span className="ml-auto shrink-0 pl-2 text-xs text-accent-text">{prayer.prayerTally}</span>

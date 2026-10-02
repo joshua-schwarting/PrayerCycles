@@ -1,8 +1,7 @@
 import { useState, useEffect, useLayoutEffect, useCallback, useRef } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom'
 import { Plus } from 'lucide-react'
-import { TimerBar } from './components/TimerBar'
-import { MainNav } from './components/MainNav'
+import { TopBar } from './components/TopBar'
 import { SideMenu } from './components/SideMenu'
 import { AddModal } from './components/AddModal'
 import { ExportImportModal } from './components/ExportImportModal'
@@ -23,8 +22,8 @@ import { TimerPage } from './routes/TimerPage'
 import { TrashPage } from './routes/TrashPage'
 import { TagsPage } from './routes/TagsPage'
 
-/** The bottom-nav destinations, in order, for swipe navigation. */
-const NAV_ROUTES = ['/', '/timer', '/tags']
+/** The nav destinations, in order, for swipe navigation. */
+const NAV_ROUTES = ['/', '/timer']
 
 /** Past this fraction of the screen the swipe commits; short of it, it snaps back. */
 const COMMIT_RATIO = 0.3
@@ -206,8 +205,7 @@ function AppContent() {
   return (
       <TimerProvider>
       <div className="flex h-dvh flex-col overflow-hidden bg-base text-text">
-        <TimerBar onMenuOpen={() => setMenuOpen(true)} />
-        {!modalOpen && <MainNav onNavigate={() => setMenuOpen(false)} />}
+        {!modalOpen && <TopBar onMenuOpen={() => setMenuOpen(true)} onNavigate={() => setMenuOpen(false)} />}
         <SideMenu
           open={menuOpen}
           onClose={() => setMenuOpen(false)}

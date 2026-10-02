@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { ScrollText, Clock, Hash } from 'lucide-react'
+import { ScrollText, Clock } from 'lucide-react'
 import { useT } from '../i18n'
 
 type MainNavProps = {
@@ -12,12 +12,11 @@ export function MainNav({ onNavigate }: MainNavProps) {
   const tabs = [
     { to: '/', icon: ScrollText, label: t.navPrayerLists },
     { to: '/timer', icon: Clock, label: t.navTimebox },
-    { to: '/tags', icon: Hash, label: t.navPrayerTags },
   ] as const
 
   return (
-    <nav className="z-40 shrink-0 border-b border-border bg-base shadow-sm">
-      <div className="mx-auto flex max-w-lg">
+    <nav className="min-w-0 flex-1">
+      <div className="flex">
         {tabs.map(({ to, icon: Icon, label }) => (
           <NavLink
             key={to}

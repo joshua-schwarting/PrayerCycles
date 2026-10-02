@@ -28,7 +28,6 @@ export type Translations = {
 
   // Timer bar
   praying: string
-  selectAList: string
   noOtherLists: string
   openMenu: string
   startTimer: string
@@ -134,7 +133,6 @@ export type Translations = {
   // Total time prayed
 
   // Tags
-  navPrayerTags: string
   prayerTags: string
   prayerTagsDesc: string
   noTagsYet: string
@@ -145,8 +143,6 @@ export type Translations = {
   createTag: string
   newTagPlaceholder: string
   filterByTags: string
-  seeMore: string
-  seeLess: string
 
   // Themes
   themeSlate: string

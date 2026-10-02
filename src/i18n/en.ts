@@ -24,7 +24,6 @@ export const en: Translations = {
   themes: 'Themes',
 
   praying: 'Praying',
-  selectAList: 'Select a list',
   noOtherLists: 'No other lists',
   openMenu: 'Open menu',
   startTimer: 'Start timer',
@@ -34,7 +33,7 @@ export const en: Translations = {
   autoToggleOffTooltip: 'Total timebox is set manually. Turn on to automatically adjust based on your prayer list.',
 
 
-  searchPrayers: 'Search prayers...',
+  searchPrayers: 'Search prayers, lists, or tags',
   noListsYet: 'No lists yet.',
   deactivated: 'Deactivated',
   expand: 'expand',
@@ -115,7 +114,6 @@ export const en: Translations = {
 
 
 
-  navPrayerTags: 'Prayer\nTags',
   prayerTags: 'Prayer Tags',
   prayerTagsDesc: 'Create, edit, or remove tags to organize your prayers and prayer lists.',
   noTagsYet: 'No tags yet. Add tags when creating prayers or lists.',
@@ -126,8 +124,6 @@ export const en: Translations = {
   createTag: 'Create Tag',
   newTagPlaceholder: 'New tag name...',
   filterByTags: 'Filter by tags',
-  seeMore: 'see more',
-  seeLess: 'see less',
 
   themeSlate: 'Default',
   themeNuudelchin: 'Nomadic',

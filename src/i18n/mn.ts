@@ -24,7 +24,6 @@ export const mn: Translations = {
   themes: 'Загвар',
 
   praying: 'Залбирч байна',
-  selectAList: 'Жагсаалт сонгох',
   noOtherLists: 'Бусад жагсаалт байхгүй',
   openMenu: 'Цэс нээх',
   startTimer: 'Цаг эхлүүлэх',
@@ -34,7 +33,7 @@ export const mn: Translations = {
   autoToggleOffTooltip: 'Нийт хугацаа гараар тохируулагдсан. Залбирлын жагсаалтад тулгуурлан автоматаар тохируулахын тулд асаана уу.',
 
 
-  searchPrayers: 'Залбирал хайх...',
+  searchPrayers: 'Залбирал, жагсаалт, шошго хайх',
   noListsYet: 'Жагсаалт байхгүй байна.',
   deactivated: 'Идэвхгүй',
   expand: 'дэлгэх',
@@ -115,7 +114,6 @@ export const mn: Translations = {
 
 
 
-  navPrayerTags: 'Залбирлын\nШошго',
   prayerTags: 'Залбирлын Шошго',
   prayerTagsDesc: 'Залбирал болон залбирлын жагсаалтыг зохион байгуулахын тулд шошго үүсгэх, засах, устгах.',
   noTagsYet: 'Шошго байхгүй байна. Залбирал эсвэл жагсаалт үүсгэх үед шошго нэмнэ үү.',
@@ -126,8 +124,6 @@ export const mn: Translations = {
   createTag: 'Шошго үүсгэх',
   newTagPlaceholder: 'Шинэ шошгоны нэр...',
   filterByTags: 'Шошгоор шүүх',
-  seeMore: 'цааш үзэх',
-  seeLess: 'хураах',
 
   themeSlate: 'Default',
   themeNuudelchin: 'Nomadic',

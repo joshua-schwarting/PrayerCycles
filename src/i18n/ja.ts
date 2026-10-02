@@ -24,7 +24,6 @@ export const ja: Translations = {
   themes: 'テーマ',
 
   praying: '祈り中',
-  selectAList: 'リストを選択',
   noOtherLists: '他のリストなし',
   openMenu: 'メニューを開く',
   startTimer: 'タイマー開始',
@@ -34,7 +33,7 @@ export const ja: Translations = {
   autoToggleOffTooltip: '合計時間は手動設定です。オンにすると祈りリストに基づいて自動調整されます。',
 
 
-  searchPrayers: '祈りを検索...',
+  searchPrayers: '祈り・リスト・タグを検索',
   noListsYet: 'リストはまだありません。',
   deactivated: '無効',
   expand: '展開',
@@ -115,7 +114,6 @@ export const ja: Translations = {
 
 
 
-  navPrayerTags: '祈りの\nタグ',
   prayerTags: '祈りタグ',
   prayerTagsDesc: 'タグを作成・編集・削除して、祈りと祈りリストを整理します。',
   noTagsYet: 'タグはまだありません。祈りやリスト作成時にタグを追加してください。',
@@ -126,8 +124,6 @@ export const ja: Translations = {
   createTag: 'タグを作成',
   newTagPlaceholder: '新しいタグ名...',
   filterByTags: 'タグで絞り込み',
-  seeMore: 'もっと見る',
-  seeLess: '閉じる',
 
   themeSlate: 'Default',
   themeNuudelchin: 'Nomadic',
