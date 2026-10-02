@@ -24,6 +24,7 @@ export const ja: Translations = {
   themes: 'テーマ',
 
   praying: '祈り中',
+  timeboxFinished: 'タイムボックス終了',
   noOtherLists: '他のリストなし',
   openMenu: 'メニューを開く',
   startTimer: 'タイマー開始',

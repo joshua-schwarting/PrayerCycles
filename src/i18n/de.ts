@@ -24,6 +24,7 @@ export const de: Translations = {
   themes: 'Designs',
 
   praying: 'Im Gebet',
+  timeboxFinished: 'Gebetszeit beendet',
   noOtherLists: 'Keine weiteren Listen',
   openMenu: 'Menü öffnen',
   startTimer: 'Timer starten',

@@ -24,6 +24,7 @@ export const gsw: Translations = {
   themes: 'Themes',
 
   praying: 'Am Bäte',
+  timeboxFinished: 'Gebätszyt fertig',
   noOtherLists: 'Kei anderi Lischte',
   openMenu: 'Menü ufmache',
   startTimer: 'Timer starte',

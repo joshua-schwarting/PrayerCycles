@@ -28,6 +28,7 @@ export type Translations = {
 
   // Timer bar
   praying: string
+  timeboxFinished: string
   noOtherLists: string
   openMenu: string
   startTimer: string

@@ -24,6 +24,7 @@ export const mn: Translations = {
   themes: 'Загвар',
 
   praying: 'Залбирч байна',
+  timeboxFinished: 'Цаг дууслаа',
   noOtherLists: 'Бусад жагсаалт байхгүй',
   openMenu: 'Цэс нээх',
   startTimer: 'Цаг эхлүүлэх',

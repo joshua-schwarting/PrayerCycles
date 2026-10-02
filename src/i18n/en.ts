@@ -24,6 +24,7 @@ export const en: Translations = {
   themes: 'Themes',
 
   praying: 'Praying',
+  timeboxFinished: 'Timebox finished',
   noOtherLists: 'No other lists',
   openMenu: 'Open menu',
   startTimer: 'Start timer',
