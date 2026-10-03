@@ -9,7 +9,10 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         // CI passes Codemagic's monotonic build number and the marketing version,
         // so Play always sees a higher versionCode; locally they fall back to 1.
-        versionCode (System.getenv("BUILD_NUMBER") ?: "1").toInteger()
+        // Kept on its own line: `versionCode (expr).toInteger()` reads as a call
+        // to versionCode(expr) and then .toInteger() on its null return.
+        def ciBuildNumber = System.getenv("BUILD_NUMBER")
+        versionCode ciBuildNumber ? ciBuildNumber.toInteger() : 1
         versionName System.getenv("MARKETING_VERSION") ?: "1.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
