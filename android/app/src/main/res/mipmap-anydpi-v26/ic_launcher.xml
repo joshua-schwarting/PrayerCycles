@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Both layers inset 16.7% (@capacitor/assets' default) is correct here: the mask's
+     72dp circle is inscribed in the 72dp art square, so the art covers every visible
+     pixel and only its corners are hidden. Removing the inset instead zooms 1.5x and
+     crops the lighthouse. The solid background layer only shows on wider OEM masks. -->
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
-    <background android:drawable="@color/ic_launcher_background"/>
-    <foreground android:drawable="@mipmap/ic_launcher_foreground"/>
+    <background>
+        <inset android:drawable="@mipmap/ic_launcher_background" android:inset="16.7%" />
+    </background>
+    <foreground>
+        <inset android:drawable="@mipmap/ic_launcher_foreground" android:inset="16.7%" />
+    </foreground>
 </adaptive-icon>
