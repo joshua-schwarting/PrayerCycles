@@ -1,4 +1,59 @@
 workflows:
+  android-release:
+    name: Android Release
+    max_build_duration: 30
+    # Android needs no macOS, but the free plan's 500 included minutes are
+    # macOS M2 minutes — Linux is billed separately, so build here to stay free.
+    instance_type: mac_mini_m2
+    environment:
+      groups:
+        # Codemagic UI group holding the upload keystore, all secure:
+        # ANDROID_KEYSTORE_B64, ANDROID_KEYSTORE_PASSWORD,
+        # ANDROID_KEY_ALIAS, ANDROID_KEY_PASSWORD
+        - codesigning-android
+      vars:
+        MARKETING_VERSION: "1.2"
+      node: 22
+    # Triggered by hand for now. Add the push trigger once the Play listing is
+    # live, so an iOS push doesn't also burn minutes on an Android build.
+    scripts:
+      - name: Install dependencies
+        script: |
+          npm ci
+      - name: Build web assets
+        script: |
+          npm run build
+      - name: Sync Capacitor
+        script: |
+          npx cap sync android
+      - name: Set up the upload keystore
+        script: |
+          set -e
+          if [ -z "$ANDROID_KEYSTORE_B64" ]; then
+            echo "ERROR: ANDROID_KEYSTORE_B64 is empty — check the codesigning-android group."
+            exit 1
+          fi
+          # Decoded to a path outside the repo so it can never be committed, and
+          # handed to Gradle through CM_KEYSTORE_PATH (see android/app/build.gradle).
+          echo "$ANDROID_KEYSTORE_B64" | base64 --decode > "$HOME/upload-keystore.jks"
+          echo "CM_KEYSTORE_PATH=$HOME/upload-keystore.jks" >> "$CM_ENV"
+          echo "CM_KEYSTORE_PASSWORD=$ANDROID_KEYSTORE_PASSWORD" >> "$CM_ENV"
+          echo "CM_KEY_ALIAS=$ANDROID_KEY_ALIAS" >> "$CM_ENV"
+          echo "CM_KEY_PASSWORD=$ANDROID_KEY_PASSWORD" >> "$CM_ENV"
+      - name: Build Android app bundle
+        script: |
+          cd android
+          ./gradlew bundleRelease
+    artifacts:
+      - android/app/build/outputs/**/*.aab
+      - android/app/build/outputs/**/mapping.txt
+    # Publishing to Play needs a service-account JSON linked in Play Console.
+    # Until that exists, download the .aab from this build and upload it by hand.
+    # publishing:
+    #   google_play:
+    #     credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+    #     track: internal
+
   ios-release:
     name: iOS Release
     max_build_duration: 30
