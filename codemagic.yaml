@@ -42,6 +42,13 @@ workflows:
           echo "CM_KEY_PASSWORD=$ANDROID_KEY_PASSWORD" >> "$CM_ENV"
       - name: Build Android app bundle
         script: |
+          set -e
+          # Capacitor 8 compiles against Java 21; the machine's default JDK is
+          # older, which fails as "invalid source release: 21".
+          echo "JDKs on this machine:"
+          /usr/libexec/java_home -V 2>&1 || true
+          export JAVA_HOME=$(/usr/libexec/java_home -v 21)
+          java -version
           cd android
           ./gradlew bundleRelease
     artifacts:
