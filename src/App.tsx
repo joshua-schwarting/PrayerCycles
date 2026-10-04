@@ -205,7 +205,8 @@ function AppContent() {
   return (
       <TimerProvider>
       <div className="flex h-dvh flex-col overflow-hidden bg-base text-text">
-        {!modalOpen && <TopBar onMenuOpen={() => setMenuOpen(true)} onNavigate={() => setMenuOpen(false)} />}
+        {/* The cog reads as a tab, so tapping it again closes the menu. */}
+        {!modalOpen && <TopBar onMenuOpen={() => setMenuOpen((open) => !open)} onNavigate={() => setMenuOpen(false)} menuOpen={menuOpen} />}
         <SideMenu
           open={menuOpen}
           onClose={() => setMenuOpen(false)}

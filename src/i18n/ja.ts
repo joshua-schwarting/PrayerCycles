@@ -13,6 +13,7 @@ export const ja: Translations = {
   no: 'いいえ',
   loading: '読み込み中...',
 
+  navSettings: '設定',
   navPrayerLists: '祈りの\nリスト',
   navTimebox: 'タイム\nボックス',
 
@@ -26,7 +27,6 @@ export const ja: Translations = {
   praying: '祈り中',
   timeboxFinished: 'タイムボックス終了',
   noOtherLists: '他のリストなし',
-  openMenu: 'メニューを開く',
   startTimer: 'タイマー開始',
   pauseTimer: '一時停止',
   resetTimer: 'リセット',

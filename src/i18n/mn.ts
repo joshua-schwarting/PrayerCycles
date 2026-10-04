@@ -13,6 +13,7 @@ export const mn: Translations = {
   no: 'Үгүй',
   loading: 'Ачааллаж байна...',
 
+  navSettings: 'Тохиргоо',
   navPrayerLists: 'Залбирлын\nЖагсаалт',
   navTimebox: 'Цагийн\nХайрцаг',
 
@@ -26,7 +27,6 @@ export const mn: Translations = {
   praying: 'Залбирч байна',
   timeboxFinished: 'Цаг дууслаа',
   noOtherLists: 'Бусад жагсаалт байхгүй',
-  openMenu: 'Цэс нээх',
   startTimer: 'Цаг эхлүүлэх',
   pauseTimer: 'Түр зогсоох',
   resetTimer: 'Шинэчлэх',

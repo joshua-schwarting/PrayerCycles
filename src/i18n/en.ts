@@ -13,6 +13,7 @@ export const en: Translations = {
   no: 'No',
   loading: 'Loading...',
 
+  navSettings: 'Settings',
   navPrayerLists: 'Prayer\nLists',
   navTimebox: 'Time\nBox',
 
@@ -26,7 +27,6 @@ export const en: Translations = {
   praying: 'Praying',
   timeboxFinished: 'Timebox finished',
   noOtherLists: 'No other lists',
-  openMenu: 'Open menu',
   startTimer: 'Start timer',
   pauseTimer: 'Pause timer',
   resetTimer: 'Reset timer',

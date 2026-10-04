@@ -13,6 +13,7 @@ export const gsw: Translations = {
   no: 'Nei',
   loading: 'Am Lade...',
 
+  navSettings: 'Istellige',
   navPrayerLists: 'Gebäts\nLischte',
   navTimebox: 'Ziit\nBox',
 
@@ -26,7 +27,6 @@ export const gsw: Translations = {
   praying: 'Am Bäte',
   timeboxFinished: 'Gebätszyt fertig',
   noOtherLists: 'Kei anderi Lischte',
-  openMenu: 'Menü ufmache',
   startTimer: 'Timer starte',
   pauseTimer: 'Pause',
   resetTimer: 'Zruggsetze',

@@ -15,6 +15,7 @@ export type Translations = {
   loading: string
 
   // Bottom nav
+  navSettings: string
   navPrayerLists: string
   navTimebox: string
 
@@ -30,7 +31,6 @@ export type Translations = {
   praying: string
   timeboxFinished: string
   noOtherLists: string
-  openMenu: string
   startTimer: string
   pauseTimer: string
   resetTimer: string

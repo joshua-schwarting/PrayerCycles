@@ -1,4 +1,4 @@
-import { Menu, Clock } from 'lucide-react'
+import { Clock } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { MainNav } from './MainNav'
 import { useTimer } from '../context/TimerContext'
@@ -7,6 +7,7 @@ import { useT } from '../i18n'
 type TopBarProps = {
   onMenuOpen: () => void
   onNavigate?: () => void
+  menuOpen?: boolean
 }
 
 function mmss(seconds: number) {
@@ -16,11 +17,12 @@ function mmss(seconds: number) {
 }
 
 /**
- * The one band at the top of the screen: menu on the left, the page tabs filling
- * the rest. A running session adds a strip underneath so you can see the timer
- * is still going from any page, and tap back to it.
+ * The one band at the top of the screen: a row of tabs, the leftmost of which is
+ * a settings cog that opens the side menu rather than navigating. A running
+ * session adds a strip underneath so you can see the timer is still going from
+ * any page, and tap back to it.
  */
-export function TopBar({ onMenuOpen, onNavigate }: TopBarProps) {
+export function TopBar({ onMenuOpen, onNavigate, menuOpen }: TopBarProps) {
   const { t } = useT()
   const navigate = useNavigate()
   const { running, prayers, currentIndex, incrementTimeLeft } = useTimer()
@@ -34,15 +36,8 @@ export function TopBar({ onMenuOpen, onNavigate }: TopBarProps) {
       className="sticky top-0 z-40 shrink-0 border-b border-border bg-card shadow-sm"
       style={{ paddingTop: 'env(safe-area-inset-top)' }}
     >
-      <div className="mx-auto flex max-w-lg items-center gap-1 px-2">
-        <button
-          onClick={onMenuOpen}
-          className="shrink-0 rounded-full p-2 text-text-tertiary transition-colors hover:bg-input"
-          aria-label={t.openMenu}
-        >
-          <Menu size={20} />
-        </button>
-        <MainNav onNavigate={onNavigate} />
+      <div className="mx-auto flex max-w-lg items-center px-2">
+        <MainNav onNavigate={onNavigate} onSettings={onMenuOpen} settingsOpen={menuOpen} />
       </div>
 
       {running && currentPrayer && (
